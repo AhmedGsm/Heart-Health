@@ -67,7 +67,7 @@
 
             // Access the irValues array elements
             // console.log(content); // Access the data array element
-            drawPPG(content, 4);
+            drawPPG(content, 10);
             //console.log("First element of the array is: " + dataArray[1]); // Get the total number of elements
         };
 
@@ -78,22 +78,6 @@
             //  from the WebSocket server
             console.log('index.html...Disconnected from WebSocket server');
         };
-
-        // Function to send a message
-        //  to the WebSocket server
-        /*function sendMessage() {
-            // Get the message input element
-            const messageInput = document
-                .getElementById('messageInput');
-            // Get the value of
-            // the message input
-            const message = messageInput.value;
-            // Send the message to 
-            // the WebSocket server
-            socket.send(message);
-            // Clear the message input
-            messageInput.value = '';
-        }*/
         
         let x = 0 ;
         let buffer = 0
@@ -117,23 +101,23 @@
 
             // Start drawing
             ctx.beginPath();
-            ctx.moveTo(x, height - ((content[0] - minVal) / range) * height);
-
+            // ctx.moveTo(x, height - ((content[0] - minVal) / range) * height);
+            ctx.moveTo(last_X, last_Y);
+            let y = 0;
             for (let i = 1; i < len; i++) {
                 x += xIncrement / timeAxisLength;
                 //x = (i / (len - 1)) * timeAxisLength;
-                const y = height - ((content[i] - minVal) / range) * height;
+                y = height - ((content[i] - minVal) / range) * height;
                 ctx.lineTo(x, y);
             }
+            
+            last_X = x;
+            last_Y = y;
 
             ctx.strokeStyle = '#007bff';
             ctx.lineWidth = 2;
             ctx.stroke();
         }
-
-        ctx.strokeStyle = '#007bff';
-        ctx.lineWidth = 2;
-        ctx.stroke();
 
         </script>
 </body>
