@@ -34,6 +34,9 @@
         // Get the canvas and context
         const canvas = document.getElementById('ppgCanvas');
         const ctx = canvas.getContext('2d');
+        // Start drawing
+        ctx.beginPath();
+        ctx.moveTo(0, 50);
 
         // Create a WebSocket instance
         // and connect to the server
@@ -64,7 +67,7 @@
 
             // Access the irValues array elements
             // console.log(content); // Access the data array element
-            drawPPG(content, 200);
+            drawPPG(content, 4);
             //console.log("First element of the array is: " + dataArray[1]); // Get the total number of elements
         };
 
@@ -93,26 +96,33 @@
         }*/
         
         let x = 0 ;
+        let buffer = 0
+        let start = 0;
+        let end = 0;
+        let last_X = 0;
+        let last_Y = 0;
         // var y = 0;
-            // Function to draw the PPG signal
-            function drawPPG(content, timeAxisLength) {
+        // Function to draw the PPG signal
+        function drawPPG(content, timeAxisLength) {
             const width = canvas.width;
             const height = canvas.height;
             const len = content.length;
             const maxVal = Math.max(...content);
             const minVal = Math.min(...content);
             const range = maxVal - minVal;
+            const xIncrement = width / len; // Increment x based on the canvas width and number of points
 
             // Clear the canvas
-            ctx.clearRect(0, 0, width, height);
+            // ctx.clearRect(0, 0, width, height);
 
             // Start drawing
             ctx.beginPath();
-            ctx.moveTo(0, height - ((content[0] - minVal) / range) * height);
+            ctx.moveTo(x, height - ((content[0] - minVal) / range) * height);
 
             for (let i = 1; i < len; i++) {
-                x = (i / (len - 1)) * timeAxisLength;
-                y = height - ((content[i] - minVal) / range) * height;
+                x += xIncrement / timeAxisLength;
+                //x = (i / (len - 1)) * timeAxisLength;
+                const y = height - ((content[i] - minVal) / range) * height;
                 ctx.lineTo(x, y);
             }
 
@@ -121,9 +131,9 @@
             ctx.stroke();
         }
 
-            ctx.strokeStyle = '#007bff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+        ctx.strokeStyle = '#007bff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
 
         </script>
 </body>
