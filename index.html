@@ -7,26 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebSocket Client</title>
     <style>
-        h1 {
-            color: green;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
         }
-
-        .container {
-            margin: 10px;
+        canvas {
+            border: 1px solid #000;
         }
     </style>
 </head>
 
 <body>
-    <h1>WebSocket Example</h1>
+    <canvas id="ppgCanvas" width="800" height="400"></canvas>
+    <!--<h1>WebSocket Example</h1>
     <div class="container">
         <label>Send Message to Server:</label> <br><br>
-         <!-- <input type="text" id="messageInput">
-        <button onclick="sendMessage()">Send</button>-->
+        <button onclick="sendMessage()">Send</button>
         <div id="output"></div>
-    </div>
+    </div>-->
 
     <script>
+        
+        // Get the canvas and context
+        const canvas = document.getElementById('ppgCanvas');
+        const ctx = canvas.getContext('2d');
+
         // Create a WebSocket instance
         // and connect to the server
         const socket = new WebSocket('ws://localhost:81');
@@ -48,7 +56,7 @@
                 .getElementById('output');
             // Append a paragraph with the
             //  received message to the output div
-            outputDiv.innerHTML += `<p>index.html... Received <b>"${receivedData}"</b> from server.</p>`;
+            // outputDiv.innerHTML += `<p>index.html... Received <b>"${receivedData}"</b> from server.</p>`;
             //const data = "" + event.data;
             //console.log("typeof data: " + data); // Access the first element
 
@@ -56,6 +64,7 @@
 
             // Access the irValues array elements
             console.log(content); // Access the data array element
+            drawPPG(content);
             //console.log("First element of the array is: " + dataArray[1]); // Get the total number of elements
         };
 
@@ -82,6 +91,33 @@
             // Clear the message input
             messageInput.value = '';
         }*/
+        
+        // Function to draw the PPG signal
+        function drawPPG(content) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const len = content.length;
+            const maxVal = Math.max(...content);
+            const minVal = Math.min(...content);
+            const range = maxVal - minVal;
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Start drawing
+            ctx.beginPath();
+            ctx.moveTo(0, height - ((content[0] - minVal) / range) * height);
+
+            for (let i = 1; i < len; i++) {
+                const x = (i / (len - 1)) * width;
+                const y = height - ((content[i] - minVal) / range) * height;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.strokeStyle = '#007bff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
     </script>
 </body>
 

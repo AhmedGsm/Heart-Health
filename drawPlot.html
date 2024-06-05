@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPG Heart Signal Plot</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="ppgCanvas" width="800" height="400"></canvas>
+
+    <script>
+        // Sample data: array of 100 float numbers representing PPG heart signal
+        const content = [/* Add your 100 float numbers here */];
+
+        // Get the canvas and context
+        const canvas = document.getElementById('ppgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Function to draw the PPG signal
+        function drawPPG(content) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const len = content.length;
+            const maxVal = Math.max(...content);
+            const minVal = Math.min(...content);
+            const range = maxVal - minVal;
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Start drawing
+            ctx.beginPath();
+            ctx.moveTo(0, height - ((content[0] - minVal) / range) * height);
+
+            for (let i = 1; i < len; i++) {
+                const x = (i / (len - 1)) * width;
+                const y = height - ((content[i] - minVal) / range) * height;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.strokeStyle = '#007bff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // Example PPG signal data (replace with your actual data)
+        const examplePPGData = Array.from({ length: 100 }, () => Math.random() * 100);
+
+        // Draw the PPG signal
+        drawPPG(examplePPGData);
+    </script>
+</body>
+</html>
