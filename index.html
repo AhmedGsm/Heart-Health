@@ -63,8 +63,8 @@
             content = JSON.parse(receivedData);
 
             // Access the irValues array elements
-            console.log(content); // Access the data array element
-            drawPPG(content);
+            // console.log(content); // Access the data array element
+            drawPPG(content, 200);
             //console.log("First element of the array is: " + dataArray[1]); // Get the total number of elements
         };
 
@@ -92,8 +92,10 @@
             messageInput.value = '';
         }*/
         
-        // Function to draw the PPG signal
-        function drawPPG(content) {
+        let x = 0 ;
+        // var y = 0;
+            // Function to draw the PPG signal
+            function drawPPG(content, timeAxisLength) {
             const width = canvas.width;
             const height = canvas.height;
             const len = content.length;
@@ -109,8 +111,8 @@
             ctx.moveTo(0, height - ((content[0] - minVal) / range) * height);
 
             for (let i = 1; i < len; i++) {
-                const x = (i / (len - 1)) * width;
-                const y = height - ((content[i] - minVal) / range) * height;
+                x = (i / (len - 1)) * timeAxisLength;
+                y = height - ((content[i] - minVal) / range) * height;
                 ctx.lineTo(x, y);
             }
 
@@ -118,7 +120,12 @@
             ctx.lineWidth = 2;
             ctx.stroke();
         }
-    </script>
+
+            ctx.strokeStyle = '#007bff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+        </script>
 </body>
 
 </html>
