@@ -21,8 +21,8 @@
     <h1>WebSocket Example</h1>
     <div class="container">
         <label>Send Message to Server:</label> <br><br>
-        <input type="text" id="messageInput">
-        <button onclick="sendMessage()">Send</button>
+         <!-- <input type="text" id="messageInput">
+        <button onclick="sendMessage()">Send</button>-->
         <div id="output"></div>
     </div>
 
@@ -48,7 +48,7 @@
             // Append a paragraph with the
             //  received message to the output div
             outputDiv
-                .innerHTML += `index.html...<p>Received <b>"${event.data}"</b> from server.</p>`;
+                .innerHTML += `<p>index.html... Received <b>"${event.data}"</b> from server.</p>`;
         };
 
         // Event listener for when the 
@@ -61,7 +61,7 @@
 
         // Function to send a message
         //  to the WebSocket server
-        function sendMessage() {
+        /*function sendMessage() {
             // Get the message input element
             const messageInput = document
                 .getElementById('messageInput');
@@ -73,7 +73,7 @@
             socket.send(message);
             // Clear the message input
             messageInput.value = '';
-        }
+        }*/
     </script>
 </body>
 
