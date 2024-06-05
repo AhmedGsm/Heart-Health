@@ -42,13 +42,21 @@
         // Event listener for when a message
         //  is received from the server
         socket.onmessage = function (event) {
+            receivedData = event.data
             // Get the output div element
             const outputDiv = document
                 .getElementById('output');
             // Append a paragraph with the
             //  received message to the output div
-            outputDiv
-                .innerHTML += `<p>index.html... Received <b>"${event.data}"</b> from server.</p>`;
+            outputDiv.innerHTML += `<p>index.html... Received <b>"${receivedData}"</b> from server.</p>`;
+            //const data = "" + event.data;
+            //console.log("typeof data: " + data); // Access the first element
+
+            content = JSON.parse(receivedData);
+
+            // Access the irValues array elements
+            console.log(content); // Access the data array element
+            //console.log("First element of the array is: " + dataArray[1]); // Get the total number of elements
         };
 
         // Event listener for when the 

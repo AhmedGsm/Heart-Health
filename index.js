@@ -7,13 +7,13 @@ wss.on('connection', function connection(ws) {
 
     ws.on('message', function incoming(message) {
         // Handle incoming message
-        console.log('index.js -->onMessage: %s', message);
+        console.log('index.js -->Type of received data is: ', typeof(message));
         ws.send(`Message from websocket server: ${message}, thank you!!`);
 
         // Broadcast the message to all clients
         wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send("wss.clients.forEach: " + message);
+                client.send("" + message);
             }
         });
     });
