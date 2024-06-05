@@ -11,6 +11,7 @@ wss.on('connection', function connection(ws) {
         ws.send(`Message from websocket server: ${message}, thank you!!`);
 
         // Broadcast the message to all clients
+        console.log("The number of clients on this websocket server is:" + length(wss.clients))
         wss.clients.forEach(function each(client) {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
                 client.send("wss.clients.forEach: " + message);
