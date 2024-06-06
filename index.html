@@ -113,8 +113,8 @@
         let canvasECG = document.getElementById('ecgCanvas');
         let ctxECG = canvasECG.getContext('2d');
         // Draw signal plot
-        let ppgSignal = new Signal(canvasPPG, ctxPPG,  10, '#007bff', 2);
-        let ecgSignal = new Signal(canvasECG, ctxECG,  10, '#200B45', 1);
+        let ppgSignal = new Signal(canvasPPG, ctxPPG,  10, '#007bff', 1);
+        let ecgSignal = new Signal(canvasECG, ctxECG,  10, '#F00B45', 1);
         // Event listener for when a message
         //  is received from the server
         socket.onmessage = function (event) {
@@ -136,57 +136,6 @@
             //  from the WebSocket server
             console.log('index.html...Disconnected from WebSocket server');
         };
-        
-        /*let x = 0 ;
-        let buffer = 0
-        let start = 0;
-        let end = 0;
-        let last_X = 0;
-        let last_Y = 0;
-        // Function to draw the PPG signal
-        function drawSignal(ctx, content, timeAxisLength ) {
-            const width = canvas.width;
-            const height = canvas.height;
-            const len = content.length;
-            const maxVal = Math.max(...content);
-            const minVal = Math.min(...content);
-            const range = maxVal - minVal;
-            const xIncrement = width / len; // Increment x based on the canvas width and number of points
-
-            // Start drawing
-            ctx.beginPath();
-            ctx.moveTo(0, 50);
-            // Clear the canvas
-            // ctx.clearRect(0, 0, width, height);
-
-            // Start drawing
-            ctx.beginPath();
-            // ctx.moveTo(x, height - ((content[0] - minVal) / range) * height);
-            ctx.moveTo(last_X, last_Y);
-            let y = 0;
-            for (let i = 1; i < len; i++) {
-                x += xIncrement / timeAxisLength;
-                //x = (i / (len - 1)) * timeAxisLength;
-                y = height - ((content[i] - minVal) / range) * height;
-                ctx.lineTo(x, y);
-            }
-            
-            last_X = x;
-            last_Y = y;
-
-            ctx.strokeStyle = '#007bff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            // Clear the plot if it achieves the right of canva
-            if(x >= width) {
-                x = 0;
-                ctx.clearRect(0, 0, width, height);
-                last_X = 0;
-                last_Y = 0;
-            }
-        }*/
-
-        
         </script>
 </body>
 
