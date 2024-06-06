@@ -25,6 +25,7 @@
             border: 1px solid #000;
             display: block;
             margin: 0 auto;
+            padding: 15px 0;
         }
     </style>
 </head>
@@ -33,54 +34,29 @@
     <div id="container">
         <canvas id="ppgCanvas" width="400" height="200"></canvas>
         <canvas id="ecgCanvas" width="400" height="200"></canvas>
-        <!--<h1>WebSocket Example</h1>
-        <div class="container">
-            <label>Send Message to Server:</label> <br><br>
-            <button onclick="sendMessage()">Send</button>
-            <div id="output"></div>
-        </div>-->
-
     </div>
     <script>
         
-        // Get the canvas and context
-        const canvas = document.getElementById('ppgCanvas');
-        const ctx = canvas.getContext('2d');
-        // Start drawing
-        ctx.beginPath();
-        ctx.moveTo(0, 50);
-
         // Create a WebSocket instance
         // and connect to the server
         const socket = new WebSocket('ws://localhost:81');
-
+        
         // Event listener for when 
         //the WebSocket connection is opened
         socket.onopen = function (event) {
             // Alert the user that they are 
             // connected to the WebSocket server
-            alert('index.html-->You are Connected to WebSocket Server');
+            console.log('index.html-->You are Connected to WebSocket Server');
         };
-
+        
         // Event listener for when a message
         //  is received from the server
         socket.onmessage = function (event) {
             receivedData = event.data
-            // Get the output div element
-            const outputDiv = document
-                .getElementById('output');
-            // Append a paragraph with the
-            //  received message to the output div
-            // outputDiv.innerHTML += `<p>index.html... Received <b>"${receivedData}"</b> from server.</p>`;
-            //const data = "" + event.data;
-            //console.log("typeof data: " + data); // Access the first element
-
+            // Parse received data
             content = JSON.parse(receivedData);
-
-            // Access the irValues array elements
-            // console.log(content); // Access the data array element
+            // Draw signal plot
             drawPPG(content, 10);
-            //console.log("First element of the array is: " + dataArray[1]); // Get the total number of elements
         };
 
         // Event listener for when the 
@@ -91,6 +67,12 @@
             console.log('index.html...Disconnected from WebSocket server');
         };
         
+        // Get the canvas and context
+        const canvas = document.getElementById('ppgCanvas');
+        const ctx = canvas.getContext('2d');
+        // Start drawing
+        ctx.beginPath();
+        ctx.moveTo(0, 50);
         let x = 0 ;
         let buffer = 0
         let start = 0;
