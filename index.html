@@ -18,7 +18,6 @@
         #container {
             width: 800px;
             padding: 20px;
-
         }
 
         canvas {
@@ -36,7 +35,66 @@
         <canvas id="ecgCanvas" width="400" height="200"></canvas>
     </div>
     <script>
-        
+        class Signal {
+
+            constructor(canvas, ctx, timeAxisLength, strokeStyle, lineWidth) {
+                this.x = 0 ;
+                this.buffer = 0
+                this.start = 0;
+                this.end = 0;
+                this.last_X = 0;
+                this.last_Y = 0;
+                this.ctx = ctx;
+                this.timeAxisLength = timeAxisLength;
+                this.strokeStyle = strokeStyle; //'#007bff';
+                this.lineWidth = lineWidth;//2
+                this.canvas = canvas;
+            }
+
+            // Define a method that draw the signal
+            drawSignal(content) {
+                const width = this.canvas.width;
+                const height = this.canvas.height;
+                const len = content.length;
+                const maxVal = Math.max(...content);
+                const minVal = Math.min(...content);
+                const range = maxVal - minVal;
+                const xIncrement = width / len; // Increment x based on the canvas width and number of points
+
+                // Start drawing
+                this.ctx.beginPath();
+                this.ctx.moveTo(0, 50);
+                // Clear the canvas
+                // ctx.clearRect(0, 0, width, height);
+
+                // Start drawing
+                this.ctx.beginPath();
+                // ctx.moveTo(x, height - ((content[0] - minVal) / range) * height);
+                this.ctx.moveTo(this.last_X, this.last_Y);
+                let y = 0;
+                for (let i = 1; i < len; i++) {
+                    this.x += xIncrement / this.timeAxisLength;
+                    //x = (i / (len - 1)) * timeAxisLength;
+                    y = height - ((content[i] - minVal) / range) * height;
+                    this.ctx.lineTo(this.x, y);
+                }
+                
+                this.last_X = this.x;
+                this.last_Y = this.y;
+
+                this.ctx.strokeStyle = this.strokeStyle; //'#007bff';
+                this.ctx.lineWidth = this.lineWidth; //2;
+                this.ctx.stroke();
+                // Clear the plot if it achieves the right of canva
+                if(this.x >= width) {
+                    this.x = 0;
+                    this.ctx.clearRect(0, 0, width, height);
+                    this.last_X = 0;
+                    this.last_Y = 0;
+                }
+            }
+        }
+
         // Create a WebSocket instance
         // and connect to the server
         const socket = new WebSocket('ws://localhost:81');
@@ -50,10 +108,12 @@
         };
         
         // Get the canvas and context
-        let canvas = document.getElementById('ppgCanvas');
-        let ctxPPG = canvas.getContext('2d');
-        canvas = document.getElementById('ecgCanvas');
-        let ctxECG = canvas.getContext('2d');
+        let canvasPPG = document.getElementById('ppgCanvas');
+        let ctxPPG = canvasPPG.getContext('2d');
+        let canvasECG = document.getElementById('ecgCanvas');
+        let ctxECG = canvasECG.getContext('2d');
+        // Draw signal plot
+        let ppgSignal = new Signal(canvasPPG, ctxPPG,  10, '#007bff', 2);
         // Event listener for when a message
         //  is received from the server
         socket.onmessage = function (event) {
@@ -61,8 +121,10 @@
             // Parse received data
             content = JSON.parse(receivedData);
             // Draw signal plot
-            drawSignal(ctxPPG, content, 10 );
-            // drawSignal(ctxECG, content, 10 );
+            //drawSignal(ctxPPG, content, 10 );
+            // Draw signal plot
+            ppgSignal.drawSignal(content);
+            
         };
 
         // Event listener for when the 
@@ -73,7 +135,7 @@
             console.log('index.html...Disconnected from WebSocket server');
         };
         
-        let x = 0 ;
+        /*let x = 0 ;
         let buffer = 0
         let start = 0;
         let end = 0;
@@ -120,8 +182,9 @@
                 last_X = 0;
                 last_Y = 0;
             }
-        }
+        }*/
 
+        
         </script>
 </body>
 
