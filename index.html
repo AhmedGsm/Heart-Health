@@ -35,8 +35,8 @@
         <canvas id="ecgCanvas" width="400" height="200"></canvas>
     </div>
     <script>
-        class Signal {
 
+        class Signal {            
             constructor(canvas, ctx, timeAxisLength, strokeStyle, lineWidth) {
                 this.x = 0 ;
                 this.buffer = 0
@@ -114,7 +114,7 @@
         let ctxECG = canvasECG.getContext('2d');
         // Draw signal plot
         let ppgSignal = new Signal(canvasPPG, ctxPPG,  10, '#007bff', 2);
-        let ecgSignal = new Signal(canvasECG, ctxECG,  10, '#457bff', 2);
+        let ecgSignal = new Signal(canvasECG, ctxECG,  10, '#200B45', 1);
         // Event listener for when a message
         //  is received from the server
         socket.onmessage = function (event) {
