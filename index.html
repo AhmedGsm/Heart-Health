@@ -80,7 +80,7 @@
                 }
                 
                 this.last_X = this.x;
-                this.last_Y = this.y;
+                this.last_Y = y;
 
                 this.ctx.strokeStyle = this.strokeStyle; //'#007bff';
                 this.ctx.lineWidth = this.lineWidth; //2;
@@ -114,6 +114,7 @@
         let ctxECG = canvasECG.getContext('2d');
         // Draw signal plot
         let ppgSignal = new Signal(canvasPPG, ctxPPG,  10, '#007bff', 2);
+        let ecgSignal = new Signal(canvasECG, ctxECG,  10, '#457bff', 2);
         // Event listener for when a message
         //  is received from the server
         socket.onmessage = function (event) {
@@ -124,6 +125,7 @@
             //drawSignal(ctxPPG, content, 10 );
             // Draw signal plot
             ppgSignal.drawSignal(content);
+            ecgSignal.drawSignal(content);
             
         };
 
