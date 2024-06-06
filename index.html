@@ -117,6 +117,13 @@
             ctx.strokeStyle = '#007bff';
             ctx.lineWidth = 2;
             ctx.stroke();
+            // Clear the plot if it achieves the right of canva
+            if(x >= width) {
+                x = 0;
+                ctx.clearRect(0, 0, width, height);
+                last_X = 0;
+                last_Y = 0;
+            }
         }
 
         </script>
