@@ -8,27 +8,39 @@
     <title>WebSocket Client</title>
     <style>
         body {
-            display: flex;
+            /*display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100vh;*/
             background-color: #f0f0f0;
         }
+
+        #container {
+            width: 800px;
+            padding: 20px;
+
+        }
+
         canvas {
             border: 1px solid #000;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
 
 <body>
-    <canvas id="ppgCanvas" width="800" height="400"></canvas>
-    <!--<h1>WebSocket Example</h1>
-    <div class="container">
-        <label>Send Message to Server:</label> <br><br>
-        <button onclick="sendMessage()">Send</button>
-        <div id="output"></div>
-    </div>-->
+    <div id="container">
+        <canvas id="ppgCanvas" width="400" height="200"></canvas>
+        <canvas id="ecgCanvas" width="400" height="200"></canvas>
+        <!--<h1>WebSocket Example</h1>
+        <div class="container">
+            <label>Send Message to Server:</label> <br><br>
+            <button onclick="sendMessage()">Send</button>
+            <div id="output"></div>
+        </div>-->
 
+    </div>
     <script>
         
         // Get the canvas and context
